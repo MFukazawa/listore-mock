@@ -1,0 +1,96 @@
+html, body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+*, *::after, *::before {
+  box-sizing: border-box;
+}
+
+/* Utility Classes */
+
+.pointer {
+  cursor: pointer;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.opaque-hover:hover {
+  opacity: 0.6;
+}
+
+/* Utility Classes END */
+
+.account {
+  max-width: 40ch;
+  margin: auto;
+}
+
+.account .fields {
+  max-width: 34ch;
+  margin: auto;
+}
+
+.google {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.google__text {
+  margin: 0 0 0 10px;
+}
+
+button.button--delete {
+  background: hsl(5deg 80% 50% / 1);
+  border: 1px solid;
+  width: 100px;
+  margin: 0 0 0 auto;
+}
+
+.todo-list:hover {
+  filter: sepia(1);
+  transition: all 0.2s ease;
+}
+
+.todo-list__title {
+  margin-bottom: 20px;
+}
+
+.todo-item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+.todo-item input {
+  margin-bottom: 0 !important;
+}
+
+.todo-item span {
+  width: 100%;
+}
+
+@media screen and (min-width: 992px) {
+  .todolist-grid {
+    grid-template-columns: repeat(2, minmax(0%,1fr));
+  }
+}
+
+.publish {
+  text-align: end;
+  margin-bottom: 0;
+}
+
+.publish input[type="checkbox"] {
+  margin-right: 0;
+}
