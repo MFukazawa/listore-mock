@@ -7,7 +7,7 @@ export default function Top(): JSX.Element {
     <div className='container'>
       <Head>
         <title>リストア</title>
-        <meta name='description' content='楽にTODO作成と共有' />
+        <meta name='description' content='友人と一緒にToDoを完了していこう' />
         <link rel='shortcut icon' href='/frame_00_delay-0.1s.gif' />
       </Head>
 
