@@ -1,7 +1,8 @@
-import React, { ReactChild, ReactChildren } from 'react'
+import React, { useState, ReactChild, ReactChildren } from 'react'
 import Link from 'next/link'
 import Styles from './Layout.module.css'
 import Logo from '../../assets/images/logo_transparent.png'
+import search from '../../public/search.svg'
 import Image from 'next/image'
 
 interface ChildProps {
@@ -33,6 +34,19 @@ const BaseLayout = ({ children }: ChildProps) => {
             </li>
           </ul>
           <ul>
+            <li>
+              <div className="flex">
+                <input />
+                <span onClick={() => alert('検索しました')} className="search-icon">
+                  <Image
+                    src={search}
+                    alt="虫眼鏡"
+                    width="40"
+                    height="40"
+                  />
+                </span>
+              </div>
+            </li>
             <li>
               <Link href='/register'>
                 <a>
