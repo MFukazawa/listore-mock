@@ -16,8 +16,8 @@ interface ITodoList {
   title: string;
   description: string;
   isPublished: boolean;
-  todos: ISection[];
-  // todos: ITodo[]
+  // todos: ISection[];
+  todos: ITodo[];
 }
 
 const todoList: ITodoList = {
@@ -27,24 +27,19 @@ const todoList: ITodoList = {
   isPublished: false,
   todos: [
     {
-      section: 'セクションA',
-      sectionTodos: [
-        {
-          id: '1',
-          content: 'ちゃんぽん食べに行く',
-          isDone: true,
-        },
-        {
-          id: '2',
-          content: 'Golangを勉強する',
-          isDone: false,
-        },
-        {
-          id: '3',
-          content: '早く寝る',
-          isDone: false,
-        },
-      ],
+      id: '1',
+      content: 'ちゃんぽん食べに行く',
+      isDone: true,
+    },
+    {
+      id: '2',
+      content: 'Golangを勉強する',
+      isDone: false,
+    },
+    {
+      id: '3',
+      content: '早く寝る',
+      isDone: false,
     },
   ],
 };
@@ -53,7 +48,7 @@ const initTodoState: ITodo = { id: '', content: '', isDone: false };
 
 const Lists = () => {
   const [todo, setTodo] = useState<ITodo>(initTodoState);
-  const [todos, setTodos] = useState<ITodoList['todos']>(todoList.todos);
+  const [todos, setTodos] = useState<ITodo[]>(todoList.todos);
   const [title, setTitle] = useState(todoList.title);
   const [description, setDescription] = useState(todoList.description);
   const [debouncedTitle, setDebouncedTitle] = useState(title);
@@ -123,133 +118,124 @@ const Lists = () => {
     });
   };
 
-  const todoSections = todos.map((section) => {
-    return isOwner ? (
-      <div key={section.section}>
-        <div className='flex flex-between'>
-          <label htmlFor='sectionTitle'>セクション名</label>
-          <span>
-            <Image
-              src='https://s2.svgbox.net/materialui.svg?ic=add'
-              alt='セクションを追加する足すアイコン'
-              className='pointer'
-              width='30'
-              height='30'
-            />
-            <Image
-              src='https://s2.svgbox.net/materialui.svg?ic=drag_indicator'
-              alt='ドラッグアイコン'
-              className='pointer'
-              width='30'
-              height='30'
-            />
-          </span>
-        </div>
-        <input
-          type='text'
-          name='sectionTitle'
-          value={section.section}
-          onChange={(e) => editSection(e, section)}
-        />
-        <div>
-          {section.sectionTodos.map((todo) => {
-            return (
-              <div key={todo.id} className='todo-item grid'>
-                <input
-                  type='checkbox'
-                  checked={todo.isDone}
-                  onChange={(e) => toggleTodo(e, todo)}
-                />
-                <input
-                  type='text'
-                  value={todo.content}
-                  onChange={(e) => editTodo(e, todo)}
-                  onKeyPress={(e) =>
-                    e.key === 'Enter' ? alert('保存しました！') : null
-                  }
-                />
-                <Image
-                  src='https://s2.svgbox.net/materialui.svg?ic=drag_indicator'
-                  alt='ドラッグアイコン'
-                  className='pointer'
-                  width='30'
-                  height='30'
-                />
-                <Image
-                  src='/Trash.svg'
-                  alt='trash can'
-                  className='pointer'
-                  width='30'
-                  height='30'
-                  onClick={(e) => deleteTodo(e, todo)}
-                />
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    ) : (
-      <div key={section.section}>
-        <h3>{section.section}</h3>
-        {section.sectionTodos.map((todo) => {
-          return (
-            <div key={todo.id} className='todo-item grid'>
-              <input
-                type='checkbox'
-                checked={todo.isDone}
-                onChange={(e) => toggleTodo(e, todo)}
-              />
-              <span>{todo.content}</span>
-            </div>
-          );
-        })}
-      </div>
-    );
-  });
-
-  // const todoMap = todos.map((todos) => {
+  // const todoSections = todos.map((section) => {
   //   return isOwner ? (
-  //     <div key={todo.id} className='todo-item grid'>
-  //       <input
-  //         type='checkbox'
-  //         checked={todo.isDone}
-  //         onChange={(e) => toggleTodo(e, todo)}
-  //       />
+  //     <div key={section.section}>
+  //       <div className='flex flex-between'>
+  //         <label htmlFor='sectionTitle'>セクション名</label>
+  //         <Image
+  //           src='https://s2.svgbox.net/materialui.svg?ic=add'
+  //           alt='セクションを追加する足すアイコン'
+  //           className='pointer'
+  //           width='30'
+  //           height='30'
+  //         />
+  //       </div>
   //       <input
   //         type='text'
-  //         value={todo.content}
-  //         onChange={(e) => editTodo(e, todo)}
-  //         onKeyPress={(e) =>
-  //           e.key === 'Enter' ? alert('保存しました！') : null
-  //         }
+  //         name='sectionTitle'
+  //         value={section.section}
+  //         onChange={(e) => editSection(e, section)}
   //       />
-  //       <Image
-  //         src='https://s2.svgbox.net/materialui.svg?ic=drag_indicator'
-  //         alt='ドラッグアイコン'
-  //         className='pointer'
-  //         width='30'
-  //         height='30'
-  //       />
-  //       <Image
-  //         src='/Trash.svg'
-  //         alt='trash can'
-  //         className='pointer'
-  //         width='30'
-  //         height='30'
-  //         onClick={(e) => deleteTodo(e, todo)}
-  //       />
+  //       <div>
+  //         {section.sectionTodos.map((todo) => {
+  //           return (
+  //             <div key={todo.id} className='todo-item grid'>
+  //               <input
+  //                 type='checkbox'
+  //                 checked={todo.isDone}
+  //                 onChange={(e) => toggleTodo(e, todo)}
+  //               />
+  //               <input
+  //                 type='text'
+  //                 value={todo.content}
+  //                 onChange={(e) => editTodo(e, todo)}
+  //                 onKeyPress={(e) =>
+  //                   e.key === 'Enter' ? alert('保存しました！') : null
+  //                 }
+  //               />
+  //               <Image
+  //                 src='https://s2.svgbox.net/materialui.svg?ic=drag_indicator'
+  //                 alt='ドラッグアイコン'
+  //                 className='pointer'
+  //                 width='30'
+  //                 height='30'
+  //               />
+  //               <Image
+  //                 src='/Trash.svg'
+  //                 alt='trash can'
+  //                 className='pointer'
+  //                 width='30'
+  //                 height='30'
+  //                 onClick={(e) => deleteTodo(e, todo)}
+  //               />
+  //             </div>
+  //           );
+  //         })}
+  //       </div>
   //     </div>
   //   ) : (
-  //     <div key={todo.id} className='todo-item grid'>
-  //       <input
-  //         type='checkbox'
-  //         checked={todo.isDone}
-  //         onChange={(e) => toggleTodo(e, todo)}
-  //       />
-  //       <span>{todo.content}</span>
+  //     <div key={section.section}>
+  //       <h3>{section.section}</h3>
+  //       {section.sectionTodos.map((todo) => {
+  //         return (
+  //           <div key={todo.id} className='todo-item grid'>
+  //             <input
+  //               type='checkbox'
+  //               checked={todo.isDone}
+  //               onChange={(e) => toggleTodo(e, todo)}
+  //             />
+  //             <span>{todo.content}</span>
+  //           </div>
+  //         );
+  //       })}
   //     </div>
   //   );
   // });
+
+  const todoMap = todos.map((todo) => {
+    return isOwner ? (
+      <div key={todo.id} className='todo-item grid'>
+        <input
+          type='checkbox'
+          checked={todo.isDone}
+          onChange={(e) => toggleTodo(e, todo)}
+        />
+        <input
+          type='text'
+          value={todo.content}
+          onChange={(e) => editTodo(e, todo)}
+          onKeyPress={(e) =>
+            e.key === 'Enter' ? alert('保存しました！') : null
+          }
+        />
+        <Image
+          src='https://s2.svgbox.net/materialui.svg?ic=drag_indicator'
+          alt='ドラッグアイコン'
+          className='pointer'
+          width='30'
+          height='30'
+        />
+        <Image
+          src='/Trash.svg'
+          alt='trash can'
+          className='pointer'
+          width='30'
+          height='30'
+          onClick={(e) => deleteTodo(e, todo)}
+        />
+      </div>
+    ) : (
+      <div key={todo.id} className='todo-item grid'>
+        <input
+          type='checkbox'
+          checked={todo.isDone}
+          onChange={(e) => toggleTodo(e, todo)}
+        />
+        <span>{todo.content}</span>
+      </div>
+    );
+  });
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -314,9 +300,9 @@ const Lists = () => {
 
         {/* { isOwner && <label>Todos</label>} */}
 
-        {/* <div>{todoMap}</div> */}
+        <div>{todoMap}</div>
 
-        <div>{todoSections}</div>
+        {/* <div>{todoSections}</div> */}
 
         {isOwner && (
           <>
