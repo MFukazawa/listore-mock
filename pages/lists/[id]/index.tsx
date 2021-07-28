@@ -128,13 +128,22 @@ const Lists = () => {
       <div key={section.section}>
         <div className='flex flex-between'>
           <label htmlFor='sectionTitle'>セクション名</label>
-          <Image
-            src='https://s2.svgbox.net/materialui.svg?ic=add'
-            alt='セクションを追加する足すアイコン'
-            className='pointer'
-            width='30'
-            height='30'
-          />
+          <span>
+            <Image
+              src='https://s2.svgbox.net/materialui.svg?ic=add'
+              alt='セクションを追加する足すアイコン'
+              className='pointer'
+              width='30'
+              height='30'
+            />
+            <Image
+              src='https://s2.svgbox.net/materialui.svg?ic=drag_indicator'
+              alt='ドラッグアイコン'
+              className='pointer'
+              width='30'
+              height='30'
+            />
+          </span>
         </div>
         <input
           type='text'
