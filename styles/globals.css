@@ -30,6 +30,7 @@ a {
 /* Utility Classes END */
 
 /* Header */
+
 .search-icon {
   margin: 0 0 0 10px;
   cursor: pointer;
@@ -88,7 +89,7 @@ button.button--delete {
 
 @media screen and (min-width: 992px) {
   .todolist-grid {
-    grid-template-columns: repeat(2, minmax(0%,1fr));
+    grid-template-columns: repeat(2, minmax(0%, 1fr));
   }
 }
 

@@ -303,10 +303,7 @@ const Lists = () => {
               value={description}
             />
             <label htmlFor='image'>カバー画像</label>
-            <input
-              name="image"
-              type="file"
-            />
+            <input name='image' type='file' />
           </fieldset>
         ) : (
           <>

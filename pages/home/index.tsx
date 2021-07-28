@@ -1,19 +1,19 @@
-import React, { useState } from 'react'
-import Link from 'next/link'
+import React, { useState } from 'react';
+import Link from 'next/link';
 
 type TodoTypes = {
-  id: string
-  title: string
-  description: string
-  style: Object
-}
+  id: string;
+  title: string;
+  description: string;
+  style: Object;
+};
 
 type KitTypes = {
   id: string;
   title: string;
   description: string;
   style: Object;
-}
+};
 
 const dummy: Array<TodoTypes> = [
   {
@@ -22,16 +22,17 @@ const dummy: Array<TodoTypes> = [
     description: 'てげてげてげてげてげてげてげ',
     style: {
       'background-color': '#74EBD5',
-      'background-image': 'linear-gradient(90deg, #74EBD5 0%, #9FACE6 100%)'
-    }
+      'background-image': 'linear-gradient(90deg, #74EBD5 0%, #9FACE6 100%)',
+    },
   },
   {
     id: '22345234523452345',
     title: 'ラーメン',
-    description: 'てげてげてげてげてげてげてげ',    style: {
+    description: 'てげてげてげてげてげてげてげ',
+    style: {
       'background-color': '#74EBD5',
-      'background-image': 'linear-gradient(90deg, #74EBD5 0%, #9FACE6 100%)'
-    }
+      'background-image': 'linear-gradient(90deg, #74EBD5 0%, #9FACE6 100%)',
+    },
   },
   {
     id: '3345634563456436',
@@ -39,8 +40,8 @@ const dummy: Array<TodoTypes> = [
     description: 'てげてげてげてげてげてげてげ',
     style: {
       'background-color': '#74EBD5',
-      'background-image': 'linear-gradient(90deg, #74EBD5 0%, #9FACE6 100%)'
-    }
+      'background-image': 'linear-gradient(90deg, #74EBD5 0%, #9FACE6 100%)',
+    },
   },
   {
     id: '44567456745674567',
@@ -48,10 +49,10 @@ const dummy: Array<TodoTypes> = [
     description: 'てげてげてげてげてげてげてげ',
     style: {
       'background-color': '#74EBD5',
-      'background-image': 'linear-gradient(90deg, #74EBD5 0%, #9FACE6 100%)'
-    }
+      'background-image': 'linear-gradient(90deg, #74EBD5 0%, #9FACE6 100%)',
+    },
   },
-]
+];
 
 const dummyKits: Array<KitTypes> = [
   {
@@ -60,8 +61,8 @@ const dummyKits: Array<KitTypes> = [
     description: '夏のバーベキューに必要な物を全部揃ったキット！',
     style: {
       'background-color': '#74EBD5',
-      'background-image': 'linear-gradient(90deg, #74EBD5 0%, #9FACE6 100%)'
-    }
+      'background-image': 'linear-gradient(90deg, #74EBD5 0%, #9FACE6 100%)',
+    },
   },
   {
     id: '22345234523452345',
@@ -69,8 +70,8 @@ const dummyKits: Array<KitTypes> = [
     description: '盛り上げていくぜー！スイカを忘れずに〜',
     style: {
       'background-color': '#74EBD5',
-      'background-image': 'linear-gradient(90deg, #74EBD5 0%, #9FACE6 100%)'
-    }
+      'background-image': 'linear-gradient(90deg, #74EBD5 0%, #9FACE6 100%)',
+    },
   },
   {
     id: '3345634563456436',
@@ -78,33 +79,32 @@ const dummyKits: Array<KitTypes> = [
     description: '浜ちゃんの特性チヌ釣りキット',
     style: {
       'background-color': '#74EBD5',
-      'background-image': 'linear-gradient(90deg, #74EBD5 0%, #9FACE6 100%)'
-    }
+      'background-image': 'linear-gradient(90deg, #74EBD5 0%, #9FACE6 100%)',
+    },
   },
   {
     id: '44567456745674567',
     title: '真夏サーフィンギア',
     description: '南国向けのサーフィンキット',
     style: {
-      'backgroundColor': '#74EBD5',
-      'backgroundImage': 'linear-gradient(90deg, #74EBD5 0%, #9FACE6 100%)'
-    }
+      backgroundColor: '#74EBD5',
+      backgroundImage: 'linear-gradient(90deg, #74EBD5 0%, #9FACE6 100%)',
+    },
   },
 ];
 
-
 const Home = () => {
-  const [dummyLists, setDummyLists] = useState(dummy)
+  const [dummyLists, setDummyLists] = useState(dummy);
 
   const handleDelete = (list: TodoTypes) => {
     if (confirm(`「${list.title}」のTODOリストを削除しますか？`)) {
-      setDummyLists(dummyLists.filter((dummyList) => dummyList.id !== list.id))
-      alert(`${list.title}を削除しました`)
+      setDummyLists(dummyLists.filter((dummyList) => dummyList.id !== list.id));
+      alert(`${list.title}を削除しました`);
     } else {
       // do nothing
-      alert('削除しませんでした')
+      alert('削除しませんでした');
     }
-  }
+  };
 
   const todoLists = dummyLists.map((list) => {
     return (
@@ -118,7 +118,7 @@ const Home = () => {
         <Link href={`/lists/${list.id}`}>
           <a>
             <article className='pointer todo-list' style={list.style}>
-              <header style={{ backgroundColor: 'transparent'}}>
+              <header style={{ backgroundColor: 'transparent' }}>
                 <span>{list.title}</span>
               </header>
               <p>{list.description}</p>
@@ -126,7 +126,7 @@ const Home = () => {
           </a>
         </Link>
       </article>
-    )
+    );
   });
 
   const todoKits = dummyKits.map((kit) => {
@@ -141,7 +141,7 @@ const Home = () => {
         <Link href={`/kits/${kit.id}`}>
           <a>
             <article className='pointer todo-list' style={kit.style}>
-              <header style={{backgroundColor: 'transparent' }}>
+              <header style={{ backgroundColor: 'transparent' }}>
                 <span>{kit.title}</span>
               </header>
               <p>{kit.description}</p>
@@ -149,12 +149,12 @@ const Home = () => {
           </a>
         </Link>
       </article>
-    )
-  })
+    );
+  });
 
   return (
     <div>
-      <div className="grid">
+      <div className='grid'>
         <button>TODOリストを作成する</button>
         <button>キットを作成する</button>
       </div>
@@ -168,9 +168,8 @@ const Home = () => {
         <header>Myキット一覧</header>
         <div className='grid todolist-grid'>{todoKits}</div>
       </article>
-
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

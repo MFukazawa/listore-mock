@@ -1,19 +1,19 @@
-import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react'
-import ReactTooltip from 'react-tooltip'
-import Image from 'next/image'
-import favicon from '../../../public/favicon.ico'
+import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
+import ReactTooltip from 'react-tooltip';
+import Image from 'next/image';
+import favicon from '../../../public/favicon.ico';
 interface ITodo {
-  id: string
-  content: string
-  isDone: boolean
+  id: string;
+  content: string;
+  isDone: boolean;
 }
 
 interface ITodoList {
-  id: string
-  title: string
-  description: string
-  isPublished: boolean
-  todos: ITodo[]
+  id: string;
+  title: string;
+  description: string;
+  isPublished: boolean;
+  todos: ITodo[];
 }
 
 const todoList: ITodoList = {
@@ -83,38 +83,38 @@ const todoList: ITodoList = {
       isDone: false,
     },
   ],
-}
+};
 
-const initTodoState: ITodo = { id: '', content: '', isDone: false }
+const initTodoState: ITodo = { id: '', content: '', isDone: false };
 
 const Kits = () => {
-  const [todo, setTodo] = useState<ITodo>(initTodoState)
-  const [todos, setTodos] = useState<ITodo[]>(todoList.todos)
-  const [title, setTitle] = useState(todoList.title)
-  const [description, setDescription] = useState(todoList.description)
-  const [debouncedTitle, setDebouncedTitle] = useState(title)
-  const [debouncedDescription, setDebouncedDescription] = useState(description)
-  const [publishStatus, setPublishStatus] = useState(todoList.isPublished)
-  const [isOwner, setIsOwner] = useState(false)
+  const [todo, setTodo] = useState<ITodo>(initTodoState);
+  const [todos, setTodos] = useState<ITodo[]>(todoList.todos);
+  const [title, setTitle] = useState(todoList.title);
+  const [description, setDescription] = useState(todoList.description);
+  const [debouncedTitle, setDebouncedTitle] = useState(title);
+  const [debouncedDescription, setDebouncedDescription] = useState(description);
+  const [publishStatus, setPublishStatus] = useState(todoList.isPublished);
+  const [isOwner, setIsOwner] = useState(false);
 
   // TODO: Custom Hook
   useEffect(() => {
     const timerId = setTimeout(() => {
-      setDebouncedTitle(title)
-    }, 3000)
+      setDebouncedTitle(title);
+    }, 3000);
     return () => {
-      clearTimeout(timerId)
-    }
-  }, [title])
+      clearTimeout(timerId);
+    };
+  }, [title]);
 
   useEffect(() => {
     const timerId = setTimeout(() => {
-      setDebouncedDescription(description)
-    }, 3000)
+      setDebouncedDescription(description);
+    }, 3000);
     return () => {
-      clearTimeout(timerId)
-    }
-  }, [description])
+      clearTimeout(timerId);
+    };
+  }, [description]);
 
   useEffect(() => {
     // INFO: 初期レンダリング時は処理しない
@@ -122,50 +122,47 @@ const Kits = () => {
       debouncedTitle === todoList.title &&
       debouncedDescription === todoList.description
     )
-      return
+      return;
 
-    console.log('APIを叩く')
-  }, [debouncedTitle, debouncedDescription])
+    console.log('APIを叩く');
+  }, [debouncedTitle, debouncedDescription]);
 
   const toggleTodo = (e: ChangeEvent<HTMLInputElement>, todo: ITodo) => {
-    todo.isDone = e.target.checked
+    todo.isDone = e.target.checked;
 
     setTodos((prev) => {
-      const index = prev.findIndex((t) => t.id === todo.id)
-      prev.splice(index, 1, todo)
-      return [...prev]
-    })
-  }
+      const index = prev.findIndex((t) => t.id === todo.id);
+      prev.splice(index, 1, todo);
+      return [...prev];
+    });
+  };
 
   const editTodo = (e: ChangeEvent<HTMLInputElement>, todo: ITodo) => {
-    todo.content = e.target.value
+    todo.content = e.target.value;
     setTodos((prev) => {
-      const index = prev.findIndex((t) => t.id === todo.id)
-      prev.splice(index, 1, todo)
-      return [...prev]
-    })
-  }
+      const index = prev.findIndex((t) => t.id === todo.id);
+      prev.splice(index, 1, todo);
+      return [...prev];
+    });
+  };
 
   const deleteTodo = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
     todo: ITodo
   ) => {
     if (todos.length === 1) {
-      alert('最後のToDoを削除することができません')
-      return
+      alert('最後のToDoを削除することができません');
+      return;
     }
     setTodos((prev) => {
-      return prev.filter((t) => t.id !== todo.id)
-    })
-  }
+      return prev.filter((t) => t.id !== todo.id);
+    });
+  };
 
   const todoMap = todos.map((todo) => {
     return isOwner ? (
       <div key={todo.id} className='todo-item grid'>
-        <input
-          type='checkbox'
-          disabled
-        />
+        <input type='checkbox' disabled />
         <input
           type='text'
           value={todo.content}
@@ -175,11 +172,11 @@ const Kits = () => {
           }
         />
         <Image
-          src="https://s2.svgbox.net/materialui.svg?ic=drag_indicator"
-          alt="ドラッグアイコン"
-          className="pointer"
-          width="30"
-          height="30"
+          src='https://s2.svgbox.net/materialui.svg?ic=drag_indicator'
+          alt='ドラッグアイコン'
+          className='pointer'
+          width='30'
+          height='30'
         />
         <Image
           src='/Trash.svg'
@@ -192,20 +189,17 @@ const Kits = () => {
       </div>
     ) : (
       <div key={todo.id} className='todo-item grid'>
-      <input
-        type='checkbox'
-        disabled
-      />
-      <span>{todo.content}</span>
-    </div>
-    )
-  })
+        <input type='checkbox' disabled />
+        <span>{todo.content}</span>
+      </div>
+    );
+  });
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    setTodos((prev) => [...prev, todo])
-    setTodo(initTodoState)
-  }
+    e.preventDefault();
+    setTodos((prev) => [...prev, todo]);
+    setTodo(initTodoState);
+  };
 
   return (
     <>
@@ -244,7 +238,7 @@ const Kits = () => {
               type='text'
               onChange={(e) => setTitle(e.target.value)}
               value={title}
-              data-tip="🔧適当なタイトルをつけることによって、検索時にみつけやすくなります！"
+              data-tip='🔧適当なタイトルをつけることによって、検索時にみつけやすくなります！'
             />
             <ReactTooltip />
             <label htmlFor='description'>説明</label>
@@ -253,67 +247,68 @@ const Kits = () => {
               type='text'
               onChange={(e) => setDescription(e.target.value)}
               value={description}
-              data-tip="🔧見つけやすくするには、ここで関連しているキーワードを書いてね！"
+              data-tip='🔧見つけやすくするには、ここで関連しているキーワードを書いてね！'
             />
             <label htmlFor='image'>カバー画像</label>
-            <input
-              name="image"
-              type="file"
-            />
+            <input name='image' type='file' />
           </fieldset>
         ) : (
           <>
             <button>キットをコピー</button>
-            <h1 className="todo-list__title">{title}</h1>
+            <h1 className='todo-list__title'>{title}</h1>
             <p>{description}</p>
           </>
         )}
 
-        { isOwner && <label>Todos</label>}
+        {isOwner && <label>Todos</label>}
 
         <div>{todoMap}</div>
 
-        {isOwner && <>
-          <br />
-          <form onSubmit={handleSubmit}>
-            <label htmlFor='todo'>ToDo追加</label>
-            <input
-              type='text'
-              name='todo'
-              value={todo.content}
-              onChange={(e) => {
-                setTodo(() => {
-                  return {
-                    id: String(todos.length + 1),
-                    content: e.target.value,
-                    isDone: false,
-                  }
-                })
-              }}
-            />
-          </form>
-        </>}
-
+        {isOwner && (
+          <>
+            <br />
+            <form onSubmit={handleSubmit}>
+              <label htmlFor='todo'>ToDo追加</label>
+              <input
+                type='text'
+                name='todo'
+                value={todo.content}
+                onChange={(e) => {
+                  setTodo(() => {
+                    return {
+                      id: String(todos.length + 1),
+                      content: e.target.value,
+                      isDone: false,
+                    };
+                  });
+                }}
+              />
+            </form>
+          </>
+        )}
       </article>
-      <article className="flex flex-start">
-        <span className="author-image">
+      <article className='flex flex-start'>
+        <span className='author-image'>
+          <Image src={favicon} alt='リストアのロゴ' width='50' height='50' />
+        </span>
+        <span className='pointer'>黒木拓巳</span>
+        <span className='pointer'>
           <Image
-            src={favicon}
-            alt='リストアのロゴ'
-            width='50'
-            height='50'
+            src='https://s2.svgbox.net/social.svg?ic=twitter'
+            width='30'
+            height='30'
           />
         </span>
-        <span className="pointer">黒木拓巳</span>
-        <span className="pointer">
-          <Image src="https://s2.svgbox.net/social.svg?ic=twitter" width="30" height="30"/>
-        </span>
-        <span className="pointer">
-          <Image src="https://s2.svgbox.net/social.svg?ic=facebook" width="30" height="30"/>
+        <span className='pointer'>
+          <Image
+            src='https://s2.svgbox.net/social.svg?ic=facebook'
+            width='30'
+            height='30'
+          />
         </span>
       </article>
     </>
-  )
-}
+  );
+};
 
-export default Kits
+export default Kits;
