@@ -1,4 +1,5 @@
 import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react'
+import ReactTooltip from 'react-tooltip'
 import Image from 'next/image'
 interface ITodo {
   id: string
@@ -159,7 +160,7 @@ const Kits = () => {
     <>
       <fieldset>
         <label htmlFor='owner'>
-          {isOwner ? 'ToDoリストオーナー' : 'ToDoリストメンバー'}
+          {isOwner ? 'キットオーナー' : 'オーナー以外の人'}
         </label>
         <input
           type='checkbox'
@@ -192,13 +193,16 @@ const Kits = () => {
               type='text'
               onChange={(e) => setTitle(e.target.value)}
               value={title}
+              data-tip="🔧適当なタイトルをつけることによって、検索時にみつけやすくなります！"
             />
-            <label htmlFor='description'>詳細</label>
+            <ReactTooltip />
+            <label htmlFor='description'>説明</label>
             <input
               name='description'
               type='text'
               onChange={(e) => setDescription(e.target.value)}
               value={description}
+              data-tip="🔧見つけやすくするには、ここで関連しているキーワードを書いてね！"
             />
           </div>
         ) : (
