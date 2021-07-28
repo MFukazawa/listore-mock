@@ -297,6 +297,7 @@ const Kits = () => {
             src='https://s2.svgbox.net/social.svg?ic=twitter'
             width='30'
             height='30'
+            alt="Twitter icon"
           />
         </span>
         <span className='pointer'>
@@ -304,6 +305,7 @@ const Kits = () => {
             src='https://s2.svgbox.net/social.svg?ic=facebook'
             width='30'
             height='30'
+            alt="Facebook icon"
           />
         </span>
       </article>
