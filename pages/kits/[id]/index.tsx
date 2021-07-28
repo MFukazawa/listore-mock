@@ -1,6 +1,7 @@
 import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react'
 import ReactTooltip from 'react-tooltip'
 import Image from 'next/image'
+import favicon from '../../../public/favicon.ico'
 interface ITodo {
   id: string
   content: string
@@ -17,23 +18,68 @@ interface ITodoList {
 
 const todoList: ITodoList = {
   id: '1123412341235123',
-  title: 'ほげ',
-  description: 'てげてげてげてげてげてげてげ',
+  title: 'BBQの持ち物リスト',
+  description: 'BBQをするのに必要なものリスト',
   isPublished: false,
   todos: [
     {
       id: '1',
-      content: 'ちゃんぽん食べに行く',
+      content: 'バーベキューコンロ',
       isDone: true,
     },
     {
       id: '2',
-      content: 'Golangを勉強する',
+      content: '網',
       isDone: false,
     },
     {
       id: '3',
-      content: '早く寝る',
+      content: '炭',
+      isDone: false,
+    },
+    {
+      id: '4',
+      content: '炭バサミ',
+      isDone: false,
+    },
+    {
+      id: '5',
+      content: '着火剤',
+      isDone: false,
+    },
+    {
+      id: '6',
+      content: 'ガズバーナー',
+      isDone: false,
+    },
+    {
+      id: '7',
+      content: 'テーブル',
+      isDone: false,
+    },
+    {
+      id: '8',
+      content: '調理用トング',
+      isDone: false,
+    },
+    {
+      id: '9',
+      content: 'クーラーBOX',
+      isDone: false,
+    },
+    {
+      id: '10',
+      content: '紙皿',
+      isDone: false,
+    },
+    {
+      id: '11',
+      content: '割り箸',
+      isDone: false,
+    },
+    {
+      id: '12',
+      content: 'コップ',
       isDone: false,
     },
   ],
@@ -49,7 +95,7 @@ const Kits = () => {
   const [debouncedTitle, setDebouncedTitle] = useState(title)
   const [debouncedDescription, setDebouncedDescription] = useState(description)
   const [publishStatus, setPublishStatus] = useState(todoList.isPublished)
-  const [isOwner, setIsOwner] = useState(true)
+  const [isOwner, setIsOwner] = useState(false)
 
   // TODO: Custom Hook
   useEffect(() => {
@@ -118,8 +164,7 @@ const Kits = () => {
       <div key={todo.id} className='todo-item grid'>
         <input
           type='checkbox'
-          checked={todo.isDone}
-          onChange={(e) => toggleTodo(e, todo)}
+          disabled
         />
         <input
           type='text'
@@ -128,6 +173,13 @@ const Kits = () => {
           onKeyPress={(e) =>
             e.key === 'Enter' ? alert('保存しました！') : null
           }
+        />
+        <Image
+          src="https://s2.svgbox.net/materialui.svg?ic=drag_indicator"
+          alt="ドラッグアイコン"
+          className="pointer"
+          width="30"
+          height="30"
         />
         <Image
           src='/Trash.svg'
@@ -142,8 +194,7 @@ const Kits = () => {
       <div key={todo.id} className='todo-item grid'>
       <input
         type='checkbox'
-        checked={todo.isDone}
-        onChange={(e) => toggleTodo(e, todo)}
+        disabled
       />
       <span>{todo.content}</span>
     </div>
@@ -207,6 +258,7 @@ const Kits = () => {
           </div>
         ) : (
           <>
+            <button>キットをコピー</button>
             <h1 className="todo-list__title">{title}</h1>
             <p>{description}</p>
           </>
@@ -236,6 +288,24 @@ const Kits = () => {
             />
           </form>
         </>}
+
+      </article>
+      <article className="flex flex-start">
+        <span className="author-image">
+          <Image
+            src={favicon}
+            alt='リストアのロゴ'
+            width='50'
+            height='50'
+          />
+        </span>
+        <span className="pointer">黒木拓巳</span>
+        <span className="pointer">
+          <Image src="https://s2.svgbox.net/social.svg?ic=twitter" width="30" height="30"/>
+        </span>
+        <span className="pointer">
+          <Image src="https://s2.svgbox.net/social.svg?ic=facebook" width="30" height="30"/>
+        </span>
       </article>
     </>
   )

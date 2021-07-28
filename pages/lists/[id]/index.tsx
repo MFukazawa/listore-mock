@@ -1,17 +1,23 @@
-import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react'
-import Image from 'next/image'
+import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
+import Image from 'next/image';
 interface ITodo {
-  id: string
-  content: string
-  isDone: boolean
+  id: string;
+  content: string;
+  isDone: boolean;
+}
+
+interface ISection {
+  section: string;
+  sectionTodos: ITodo[];
 }
 
 interface ITodoList {
-  id: string
-  title: string
-  description: string
-  isPublished: boolean
-  todos: ITodo[]
+  id: string;
+  title: string;
+  description: string;
+  isPublished: boolean;
+  todos: ISection[];
+  // todos: ITodo[]
 }
 
 const todoList: ITodoList = {
@@ -21,53 +27,58 @@ const todoList: ITodoList = {
   isPublished: false,
   todos: [
     {
-      id: '1',
-      content: 'ちゃんぽん食べに行く',
-      isDone: true,
-    },
-    {
-      id: '2',
-      content: 'Golangを勉強する',
-      isDone: false,
-    },
-    {
-      id: '3',
-      content: '早く寝る',
-      isDone: false,
+      section: 'セクションA',
+      sectionTodos: [
+        {
+          id: '1',
+          content: 'ちゃんぽん食べに行く',
+          isDone: true,
+        },
+        {
+          id: '2',
+          content: 'Golangを勉強する',
+          isDone: false,
+        },
+        {
+          id: '3',
+          content: '早く寝る',
+          isDone: false,
+        },
+      ],
     },
   ],
-}
+};
 
-const initTodoState: ITodo = { id: '', content: '', isDone: false }
+const initTodoState: ITodo = { id: '', content: '', isDone: false };
 
 const Lists = () => {
-  const [todo, setTodo] = useState<ITodo>(initTodoState)
-  const [todos, setTodos] = useState<ITodo[]>(todoList.todos)
-  const [title, setTitle] = useState(todoList.title)
-  const [description, setDescription] = useState(todoList.description)
-  const [debouncedTitle, setDebouncedTitle] = useState(title)
-  const [debouncedDescription, setDebouncedDescription] = useState(description)
-  const [publishStatus, setPublishStatus] = useState(todoList.isPublished)
-  const [isOwner, setIsOwner] = useState(true)
+  const [todo, setTodo] = useState<ITodo>(initTodoState);
+  const [todos, setTodos] = useState<ITodoList['todos']>(todoList.todos);
+  const [title, setTitle] = useState(todoList.title);
+  const [description, setDescription] = useState(todoList.description);
+  const [debouncedTitle, setDebouncedTitle] = useState(title);
+  const [debouncedDescription, setDebouncedDescription] = useState(description);
+  const [publishStatus, setPublishStatus] = useState(todoList.isPublished);
+  const [isOwner, setIsOwner] = useState(true);
 
   // TODO: Custom Hook
   useEffect(() => {
     const timerId = setTimeout(() => {
-      setDebouncedTitle(title)
-    }, 3000)
+      setDebouncedTitle(title);
+    }, 3000);
     return () => {
-      clearTimeout(timerId)
-    }
-  }, [title])
+      clearTimeout(timerId);
+    };
+  }, [title]);
 
   useEffect(() => {
     const timerId = setTimeout(() => {
-      setDebouncedDescription(description)
-    }, 3000)
+      setDebouncedDescription(description);
+    }, 3000);
     return () => {
-      clearTimeout(timerId)
-    }
-  }, [description])
+      clearTimeout(timerId);
+    };
+  }, [description]);
 
   useEffect(() => {
     // INFO: 初期レンダリング時は処理しない
@@ -75,85 +86,167 @@ const Lists = () => {
       debouncedTitle === todoList.title &&
       debouncedDescription === todoList.description
     )
-      return
+      return;
 
-    console.log('APIを叩く')
-  }, [debouncedTitle, debouncedDescription])
+    console.log('APIを叩く');
+  }, [debouncedTitle, debouncedDescription]);
 
   const toggleTodo = (e: ChangeEvent<HTMLInputElement>, todo: ITodo) => {
-    todo.isDone = e.target.checked
+    todo.isDone = e.target.checked;
 
     setTodos((prev) => {
-      const index = prev.findIndex((t) => t.id === todo.id)
-      prev.splice(index, 1, todo)
-      return [...prev]
-    })
-  }
+      const index = prev.findIndex((t) => t.id === todo.id);
+      prev.splice(index, 1, todo);
+      return [...prev];
+    });
+  };
 
   const editTodo = (e: ChangeEvent<HTMLInputElement>, todo: ITodo) => {
-    todo.content = e.target.value
+    todo.content = e.target.value;
     setTodos((prev) => {
-      const index = prev.findIndex((t) => t.id === todo.id)
-      prev.splice(index, 1, todo)
-      return [...prev]
-    })
-  }
+      const index = prev.findIndex((t) => t.id === todo.id);
+      prev.splice(index, 1, todo);
+      return [...prev];
+    });
+  };
 
   const deleteTodo = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
     todo: ITodo
   ) => {
     if (todos.length === 1) {
-      alert('最後のToDoを削除することができません')
-      return
+      alert('最後のToDoを削除することができません');
+      return;
     }
     setTodos((prev) => {
-      return prev.filter((t) => t.id !== todo.id)
-    })
-  }
+      return prev.filter((t) => t.id !== todo.id);
+    });
+  };
 
-  const todoMap = todos.map((todo) => {
+  const todoSections = todos.map((section) => {
     return isOwner ? (
-      <div key={todo.id} className='todo-item grid'>
-        <input
-          type='checkbox'
-          checked={todo.isDone}
-          onChange={(e) => toggleTodo(e, todo)}
-        />
+      <div key={section.section}>
+        <div className='flex flex-between'>
+          <label htmlFor='sectionTitle'>セクション名</label>
+          <Image
+            src='https://s2.svgbox.net/materialui.svg?ic=add'
+            alt='セクションを追加する足すアイコン'
+            className='pointer'
+            width='30'
+            height='30'
+          />
+        </div>
         <input
           type='text'
-          value={todo.content}
-          onChange={(e) => editTodo(e, todo)}
-          onKeyPress={(e) =>
-            e.key === 'Enter' ? alert('保存しました！') : null
-          }
+          name='sectionTitle'
+          value={section.section}
+          onChange={(e) => editSection(e, section)}
         />
-        <Image
-          src='/Trash.svg'
-          alt='trash can'
-          className='pointer'
-          width='30'
-          height='30'
-          onClick={(e) => deleteTodo(e, todo)}
-        />
+        <div>
+          {section.sectionTodos.map((todo) => {
+            return (
+              <div key={todo.id} className='todo-item grid'>
+                <input
+                  type='checkbox'
+                  checked={todo.isDone}
+                  onChange={(e) => toggleTodo(e, todo)}
+                />
+                <input
+                  type='text'
+                  value={todo.content}
+                  onChange={(e) => editTodo(e, todo)}
+                  onKeyPress={(e) =>
+                    e.key === 'Enter' ? alert('保存しました！') : null
+                  }
+                />
+                <Image
+                  src='https://s2.svgbox.net/materialui.svg?ic=drag_indicator'
+                  alt='ドラッグアイコン'
+                  className='pointer'
+                  width='30'
+                  height='30'
+                />
+                <Image
+                  src='/Trash.svg'
+                  alt='trash can'
+                  className='pointer'
+                  width='30'
+                  height='30'
+                  onClick={(e) => deleteTodo(e, todo)}
+                />
+              </div>
+            );
+          })}
+        </div>
       </div>
     ) : (
-      <div key={todo.id} className='todo-item grid'>
-      <input
-        type='checkbox'
-        checked={todo.isDone}
-        onChange={(e) => toggleTodo(e, todo)}
-      />
-      <span>{todo.content}</span>
-    </div>
-    )
-  })
+      <div key={section.section}>
+        <h3>{section.section}</h3>
+        {section.sectionTodos.map((todo) => {
+          return (
+            <div key={todo.id} className='todo-item grid'>
+              <input
+                type='checkbox'
+                checked={todo.isDone}
+                onChange={(e) => toggleTodo(e, todo)}
+              />
+              <span>{todo.content}</span>
+            </div>
+          );
+        })}
+      </div>
+    );
+  });
+
+  // const todoMap = todos.map((todos) => {
+  //   return isOwner ? (
+  //     <div key={todo.id} className='todo-item grid'>
+  //       <input
+  //         type='checkbox'
+  //         checked={todo.isDone}
+  //         onChange={(e) => toggleTodo(e, todo)}
+  //       />
+  //       <input
+  //         type='text'
+  //         value={todo.content}
+  //         onChange={(e) => editTodo(e, todo)}
+  //         onKeyPress={(e) =>
+  //           e.key === 'Enter' ? alert('保存しました！') : null
+  //         }
+  //       />
+  //       <Image
+  //         src='https://s2.svgbox.net/materialui.svg?ic=drag_indicator'
+  //         alt='ドラッグアイコン'
+  //         className='pointer'
+  //         width='30'
+  //         height='30'
+  //       />
+  //       <Image
+  //         src='/Trash.svg'
+  //         alt='trash can'
+  //         className='pointer'
+  //         width='30'
+  //         height='30'
+  //         onClick={(e) => deleteTodo(e, todo)}
+  //       />
+  //     </div>
+  //   ) : (
+  //     <div key={todo.id} className='todo-item grid'>
+  //       <input
+  //         type='checkbox'
+  //         checked={todo.isDone}
+  //         onChange={(e) => toggleTodo(e, todo)}
+  //       />
+  //       <span>{todo.content}</span>
+  //     </div>
+  //   );
+  // });
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    setTodos((prev) => [...prev, todo])
-    setTodo(initTodoState)
-  }
+    e.preventDefault();
+    setTodos((prev) => [...prev, todo]);
+    setTodo(initTodoState);
+  };
 
   return (
     <>
@@ -203,38 +296,42 @@ const Lists = () => {
           </div>
         ) : (
           <>
-            <h1 className="todo-list__title">{title}</h1>
+            <h1 className='todo-list__title'>{title}</h1>
             <p>{description}</p>
           </>
         )}
 
-        { isOwner && <label>Todos</label>}
+        {/* { isOwner && <label>Todos</label>} */}
 
-        <div>{todoMap}</div>
+        {/* <div>{todoMap}</div> */}
 
-        {isOwner && <>
-          <br />
-          <form onSubmit={handleSubmit}>
-            <label htmlFor='todo'>ToDo追加</label>
-            <input
-              type='text'
-              name='todo'
-              value={todo.content}
-              onChange={(e) => {
-                setTodo(() => {
-                  return {
-                    id: String(todos.length + 1),
-                    content: e.target.value,
-                    isDone: false,
-                  }
-                })
-              }}
-            />
-          </form>
-        </>}
+        <div>{todoSections}</div>
+
+        {isOwner && (
+          <>
+            <br />
+            <form onSubmit={handleSubmit}>
+              <label htmlFor='todo'>ToDo追加</label>
+              <input
+                type='text'
+                name='todo'
+                value={todo.content}
+                onChange={(e) => {
+                  setTodo(() => {
+                    return {
+                      id: String(todos.length + 1),
+                      content: e.target.value,
+                      isDone: false,
+                    };
+                  });
+                }}
+              />
+            </form>
+          </>
+        )}
       </article>
     </>
-  )
-}
+  );
+};
 
-export default Lists
+export default Lists;

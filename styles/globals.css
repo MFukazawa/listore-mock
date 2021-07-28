@@ -104,3 +104,23 @@ button.button--delete {
 .todo-description {
   color: #374956;
 }
+
+.author-image {
+  margin: 0 10px 0 0;
+}
+
+.flex span {
+  margin: 0 10px;
+}
+
+.flex-start {
+  justify-content: flex-start;
+}
+
+.two-col {
+  grid-template-columns: 1fr 1fr;
+}
+
+.flex-between {
+  justify-content: space-between;
+}
