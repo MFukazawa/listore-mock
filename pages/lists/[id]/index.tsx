@@ -278,7 +278,7 @@ const Lists = () => {
           </fieldset>
         )}
         {isOwner ? (
-          <div>
+          <fieldset>
             <label htmlFor='title'>タイトル</label>
             <input
               name='title'
@@ -293,7 +293,12 @@ const Lists = () => {
               onChange={(e) => setDescription(e.target.value)}
               value={description}
             />
-          </div>
+            <label htmlFor='image'>カバー画像</label>
+            <input
+              name="image"
+              type="file"
+            />
+          </fieldset>
         ) : (
           <>
             <h1 className='todo-list__title'>{title}</h1>

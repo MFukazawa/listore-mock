@@ -237,7 +237,7 @@ const Kits = () => {
           </fieldset>
         )}
         {isOwner ? (
-          <div>
+          <fieldset>
             <label htmlFor='title'>タイトル</label>
             <input
               name='title'
@@ -255,7 +255,12 @@ const Kits = () => {
               value={description}
               data-tip="🔧見つけやすくするには、ここで関連しているキーワードを書いてね！"
             />
-          </div>
+            <label htmlFor='image'>カバー画像</label>
+            <input
+              name="image"
+              type="file"
+            />
+          </fieldset>
         ) : (
           <>
             <button>キットをコピー</button>
