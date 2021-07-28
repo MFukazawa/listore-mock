@@ -37,13 +37,17 @@ const BaseLayout = ({ children }: ChildProps) => {
             <li>
               <div className="flex">
                 <input />
-                <span onClick={() => alert('検索しました')} className="search-icon">
-                  <Image
-                    src={search}
-                    alt="虫眼鏡"
-                    width="40"
-                    height="40"
-                  />
+                <span className="search-icon">
+                  <Link href="/search">
+                    <a>
+                      <Image
+                        src={search}
+                        alt="虫眼鏡"
+                        width="40"
+                        height="40"
+                      />
+                    </a>
+                  </Link>
                 </span>
               </div>
             </li>

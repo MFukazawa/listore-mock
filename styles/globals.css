@@ -100,3 +100,7 @@ button.button--delete {
 .publish input[type="checkbox"] {
   margin-right: 0;
 }
+
+.todo-description {
+  color: #374956;
+}
