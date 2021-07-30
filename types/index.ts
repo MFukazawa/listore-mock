@@ -6,7 +6,7 @@ export interface ITodo {
 
 export interface ISection {
   name: string;
-  id: string,
+  id: string;
   todos: ITodo[];
 }
 

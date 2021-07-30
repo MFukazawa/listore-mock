@@ -13,7 +13,16 @@ interface KitSectionProps {
   deleteTodo: Function;
 }
 
-const KitSection = ({ isOwner, section, editTodo, deleteTodo, addSection, deleteSection, editSectionName, setSections }: KitSectionProps) => {
+const KitSection = ({
+  isOwner,
+  section,
+  editTodo,
+  deleteTodo,
+  addSection,
+  deleteSection,
+  editSectionName,
+  setSections,
+}: KitSectionProps) => {
   const [newContent, setNewContent] = useState<string>('');
 
   const handleNewTodo = () => {
@@ -107,7 +116,6 @@ const KitSection = ({ isOwner, section, editTodo, deleteTodo, addSection, delete
         onChange={(e) => setNewContent(e.target.value)}
         onKeyUp={(e) => (e.key === 'Enter' ? handleNewTodo() : '')}
       />
-
     </section>
   ) : (
     <section key={section.id}>

@@ -1,4 +1,4 @@
-import { ITodoList } from '../../types'
+import { ITodoList } from '../../types';
 
 export const todoList: ITodoList = {
   id: '1123412341235123',

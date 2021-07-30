@@ -3,7 +3,7 @@ import ReactTooltip from 'react-tooltip';
 import Image from 'next/image';
 import favicon from '../../../public/favicon.ico';
 import { ITodo, ITodoList, ISection } from '../../../types/index';
-import { todoList } from './constants'
+import { todoList } from './constants';
 import KitSection from '../../../components/KitSection';
 
 const Kits = () => {
@@ -73,8 +73,10 @@ const Kits = () => {
     }
     setSections((prev) => {
       const sectionIndex = prev.findIndex((s) => s.id === section.id);
-      prev[sectionIndex].todos = prev[sectionIndex].todos.filter((t) => t.id !== todo.id)
-      return [...prev]
+      prev[sectionIndex].todos = prev[sectionIndex].todos.filter(
+        (t) => t.id !== todo.id
+      );
+      return [...prev];
     });
   };
 
@@ -96,14 +98,13 @@ const Kits = () => {
   ) => {
     setSections((prev) => {
       prev.push({
-      name: '',
-      id: String(sections.length + 10),
-      todos: []
-    })
-    return [...prev]
-  })
-
-  }
+        name: '',
+        id: String(sections.length + 10),
+        todos: [],
+      });
+      return [...prev];
+    });
+  };
 
   const deleteSection = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
@@ -132,7 +133,7 @@ const Kits = () => {
         deleteSection={deleteSection}
         setSections={setSections}
       />
-    )
+    );
   });
 
   return (
@@ -229,7 +230,7 @@ const Kits = () => {
             src='https://s2.svgbox.net/social.svg?ic=twitter'
             width='30'
             height='30'
-            alt="Twitter icon"
+            alt='Twitter icon'
           />
         </span>
         <span className='pointer'>
@@ -237,7 +238,7 @@ const Kits = () => {
             src='https://s2.svgbox.net/social.svg?ic=facebook'
             width='30'
             height='30'
-            alt="Facebook icon"
+            alt='Facebook icon'
           />
         </span>
       </article>

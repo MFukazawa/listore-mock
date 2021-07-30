@@ -42,7 +42,11 @@ const Lists = () => {
     console.log('APIを叩く');
   }, [debouncedTitle, debouncedDescription]);
 
-  const toggleTodo = (e: ChangeEvent<HTMLInputElement>, section: ISection, todo: ITodo) => {
+  const toggleTodo = (
+    e: ChangeEvent<HTMLInputElement>,
+    section: ISection,
+    todo: ITodo
+  ) => {
     todo.isDone = e.target.checked;
 
     setSections((prev) => {
@@ -90,14 +94,13 @@ const Lists = () => {
   ) => {
     setSections((prev) => {
       prev.push({
-      name: '',
-      id: String(sections.length + 10),
-      todos: []
-    })
-    return [...prev]
-  })
-
-  }
+        name: '',
+        id: String(sections.length + 10),
+        todos: [],
+      });
+      return [...prev];
+    });
+  };
 
   const deleteSection = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
@@ -124,8 +127,10 @@ const Lists = () => {
     }
     setSections((prev) => {
       const sectionIndex = prev.findIndex((s) => s.id === section.id);
-      prev[sectionIndex].todos = prev[sectionIndex].todos.filter((t) => t.id !== todo.id)
-      return [...prev]
+      prev[sectionIndex].todos = prev[sectionIndex].todos.filter(
+        (t) => t.id !== todo.id
+      );
+      return [...prev];
     });
   };
 
