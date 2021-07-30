@@ -16,8 +16,8 @@ const dummy: Array<TodoTypes> = [
     title: '夏のバーベキュー',
     description: '夏のバーベキューに必要な物を全部揃ったキット！',
     style: {
-      'background-color': '#74EBD5',
-      'background-image': 'linear-gradient(90deg, #74EBD5 0%, #9FACE6 100%)',
+      backgroundColor: '#74EBD5',
+      backgroundImage: 'linear-gradient(90deg, #74EBD5 0%, #9FACE6 100%)',
     },
   },
   {
@@ -25,8 +25,8 @@ const dummy: Array<TodoTypes> = [
     title: 'ビーチパーティー',
     description: '盛り上げていくぜー！スイカを忘れずに〜',
     style: {
-      'background-color': '#74EBD5',
-      'background-image': 'linear-gradient(90deg, #74EBD5 0%, #9FACE6 100%)',
+      backgroundColor: '#74EBD5',
+      backgroundImage: 'linear-gradient(90deg, #74EBD5 0%, #9FACE6 100%)',
     },
   },
   {
@@ -34,8 +34,8 @@ const dummy: Array<TodoTypes> = [
     title: 'チヌ釣り',
     description: '浜ちゃんの特性チヌ釣りキット',
     style: {
-      'background-color': '#74EBD5',
-      'background-image': 'linear-gradient(90deg, #74EBD5 0%, #9FACE6 100%)',
+      backgroundColor: '#74EBD5',
+      backgroundImage: 'linear-gradient(90deg, #74EBD5 0%, #9FACE6 100%)',
     },
   },
   {

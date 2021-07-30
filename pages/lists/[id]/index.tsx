@@ -7,8 +7,9 @@ interface ITodo {
 }
 
 interface ISection {
-  section: string;
-  sectionTodos: ITodo[];
+  name: string;
+  id: 1,
+  todos: ITodo[];
 }
 
 interface ITodoList {
@@ -27,8 +28,9 @@ const todoList: ITodoList = {
   isPublished: false,
   todos: [
     {
-      section: 'セクションA',
-      sectionTodos: [
+      name: 'セクションA',
+      id: 1,
+      todos: [
         {
           id: '1',
           content: 'ちゃんぽん食べに行く',
@@ -53,7 +55,7 @@ const initTodoState: ITodo = { id: '', content: '', isDone: false };
 
 const Lists = () => {
   const [todo, setTodo] = useState<ITodo>(initTodoState);
-  const [todos, setTodos] = useState<ITodoList['todos']>(todoList.todos);
+  const [sections, setSections] = useState<ITodoList['todos']>(todoList.todos);
   const [title, setTitle] = useState(todoList.title);
   const [description, setDescription] = useState(todoList.description);
   const [debouncedTitle, setDebouncedTitle] = useState(title);
@@ -94,7 +96,7 @@ const Lists = () => {
   const toggleTodo = (e: ChangeEvent<HTMLInputElement>, todo: ITodo) => {
     todo.isDone = e.target.checked;
 
-    setTodos((prev) => {
+    setSections((prev) => {
       const index = prev.findIndex((t) => t.id === todo.id);
       prev.splice(index, 1, todo);
       return [...prev];
@@ -110,6 +112,16 @@ const Lists = () => {
     });
   };
 
+  const editSection = (e: ChangeEvent<HTMLInputElement>, section: ISection) => {
+    console.log(section)
+    section.name = e.target.value;
+    setSections((prev) => {
+      const index = prev.findIndex((s) => s.id === section.id);
+      prev.splice(index, 1, section);
+      return [...prev]
+    })
+  }
+
   const deleteTodo = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
     todo: ITodo
@@ -123,9 +135,9 @@ const Lists = () => {
     });
   };
 
-  const todoSections = todos.map((section) => {
+  const todoSections = sections.map((section: ISection) => {
     return isOwner ? (
-      <div key={section.section}>
+      <div key={section.id}>
         <div className='flex flex-between'>
           <label htmlFor='sectionTitle'>セクション名</label>
           <span>
@@ -148,11 +160,11 @@ const Lists = () => {
         <input
           type='text'
           name='sectionTitle'
-          value={section.section}
+          value={section.name}
           onChange={(e) => editSection(e, section)}
         />
         <div>
-          {section.sectionTodos.map((todo) => {
+          {section.todos.map((todo) => {
             return (
               <div key={todo.id} className='todo-item grid'>
                 <input
@@ -189,9 +201,9 @@ const Lists = () => {
         </div>
       </div>
     ) : (
-      <div key={section.section}>
-        <h3>{section.section}</h3>
-        {section.sectionTodos.map((todo) => {
+      <div key={section.id}>
+        <h3>{section.name}</h3>
+        {section.todos.map((todo) => {
           return (
             <div key={todo.id} className='todo-item grid'>
               <input
