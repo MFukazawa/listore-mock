@@ -28,6 +28,8 @@ const ToDoSection = ({
   const [newContent, setNewContent] = useState<string>('');
 
   const handleNewTodo = () => {
+    if (newContent.length === 0) return
+
     setSections((prev: ISection[]) => {
       const sectionIndex = prev.findIndex((s) => s.id === section.id);
       prev[sectionIndex].todos.push({

@@ -4,6 +4,7 @@ import Styles from './Layout.module.css'
 import Logo from '../../assets/images/logo_transparent.png'
 import search from '../../public/search.svg'
 import Image from 'next/image'
+import router from 'next/router'
 
 interface ChildProps {
   children: ReactChild | ReactChildren
@@ -36,7 +37,9 @@ const BaseLayout = ({ children }: ChildProps) => {
           <ul>
             <li>
               <div className="flex">
-                <input />
+                <input
+                  onKeyUp={(e) => e.key === 'Enter' ? router.push('/search') : ''}
+                />
                 <span className="search-icon">
                   <Link href="/search">
                     <a>
