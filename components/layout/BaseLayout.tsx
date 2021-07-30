@@ -4,14 +4,23 @@ import Styles from './Layout.module.css'
 import Logo from '../../assets/images/logo_transparent.png'
 import search from '../../public/search.svg'
 import Image from 'next/image'
+import router from 'next/router'
 
 interface ChildProps {
   children: ReactChild | ReactChildren
 }
 
 const BaseLayout = ({ children }: ChildProps) => {
+  const [searchTerm, setSearchTerm] = useState('')
   const currentYear = () => {
     return new Date().getFullYear()
+  }
+
+  const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      router.push('/search')
+      setSearchTerm('')
+    }
   }
 
   return (
@@ -36,7 +45,11 @@ const BaseLayout = ({ children }: ChildProps) => {
           <ul>
             <li>
               <div className="flex">
-                <input />
+                <input
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onKeyUp={(e) => handleSearch(e)}
+                />
                 <span className="search-icon">
                   <Link href="/search">
                     <a>

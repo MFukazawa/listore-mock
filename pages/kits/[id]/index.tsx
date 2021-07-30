@@ -2,94 +2,12 @@ import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import ReactTooltip from 'react-tooltip';
 import Image from 'next/image';
 import favicon from '../../../public/favicon.ico';
-interface ITodo {
-  id: string;
-  content: string;
-  isDone: boolean;
-}
-
-interface ITodoList {
-  id: string;
-  title: string;
-  description: string;
-  isPublished: boolean;
-  todos: ITodo[];
-}
-
-const todoList: ITodoList = {
-  id: '1123412341235123',
-  title: 'BBQの持ち物リスト',
-  description: 'BBQをするのに必要なものリスト',
-  isPublished: false,
-  todos: [
-    {
-      id: '1',
-      content: 'バーベキューコンロ',
-      isDone: true,
-    },
-    {
-      id: '2',
-      content: '網',
-      isDone: false,
-    },
-    {
-      id: '3',
-      content: '炭',
-      isDone: false,
-    },
-    {
-      id: '4',
-      content: '炭バサミ',
-      isDone: false,
-    },
-    {
-      id: '5',
-      content: '着火剤',
-      isDone: false,
-    },
-    {
-      id: '6',
-      content: 'ガズバーナー',
-      isDone: false,
-    },
-    {
-      id: '7',
-      content: 'テーブル',
-      isDone: false,
-    },
-    {
-      id: '8',
-      content: '調理用トング',
-      isDone: false,
-    },
-    {
-      id: '9',
-      content: 'クーラーBOX',
-      isDone: false,
-    },
-    {
-      id: '10',
-      content: '紙皿',
-      isDone: false,
-    },
-    {
-      id: '11',
-      content: '割り箸',
-      isDone: false,
-    },
-    {
-      id: '12',
-      content: 'コップ',
-      isDone: false,
-    },
-  ],
-};
-
-const initTodoState: ITodo = { id: '', content: '', isDone: false };
+import { ITodo, ISection } from '../../../types/index';
+import { todoList } from '../../../components/KitSection/constants';
+import KitSection from '../../../components/KitSection';
 
 const Kits = () => {
-  const [todo, setTodo] = useState<ITodo>(initTodoState);
-  const [todos, setTodos] = useState<ITodo[]>(todoList.todos);
+  const [sections, setSections] = useState<ISection[]>(todoList.todos);
   const [title, setTitle] = useState(todoList.title);
   const [description, setDescription] = useState(todoList.description);
   const [debouncedTitle, setDebouncedTitle] = useState(title);
@@ -127,79 +45,96 @@ const Kits = () => {
     console.log('APIを叩く');
   }, [debouncedTitle, debouncedDescription]);
 
-  const toggleTodo = (e: ChangeEvent<HTMLInputElement>, todo: ITodo) => {
-    todo.isDone = e.target.checked;
-
-    setTodos((prev) => {
-      const index = prev.findIndex((t) => t.id === todo.id);
-      prev.splice(index, 1, todo);
-      return [...prev];
-    });
-  };
-
-  const editTodo = (e: ChangeEvent<HTMLInputElement>, todo: ITodo) => {
+  const editTodo = (
+    e: ChangeEvent<HTMLInputElement>,
+    section: ISection,
+    todo: ITodo
+  ) => {
     todo.content = e.target.value;
-    setTodos((prev) => {
-      const index = prev.findIndex((t) => t.id === todo.id);
-      prev.splice(index, 1, todo);
+
+    setSections((prev) => {
+      const sectionIndex = prev.findIndex((s) => s.id === section.id);
+      const todoIndex = prev[sectionIndex].todos.findIndex(
+        (t) => t.id === todo.id
+      );
+      prev[sectionIndex].todos.splice(todoIndex, 1, todo);
       return [...prev];
     });
   };
 
   const deleteTodo = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    section: ISection,
     todo: ITodo
   ) => {
-    if (todos.length === 1) {
+    if (section.todos.length === 1) {
       alert('最後のToDoを削除することができません');
       return;
     }
-    setTodos((prev) => {
-      return prev.filter((t) => t.id !== todo.id);
+    setSections((prev) => {
+      const sectionIndex = prev.findIndex((s) => s.id === section.id);
+      prev[sectionIndex].todos = prev[sectionIndex].todos.filter(
+        (t) => t.id !== todo.id
+      );
+      return [...prev];
     });
   };
 
-  const todoMap = todos.map((todo) => {
-    return isOwner ? (
-      <div key={todo.id} className='todo-item grid'>
-        <input type='checkbox' disabled />
-        <input
-          type='text'
-          value={todo.content}
-          onChange={(e) => editTodo(e, todo)}
-          onKeyPress={(e) =>
-            e.key === 'Enter' ? alert('保存しました！') : null
-          }
-        />
-        <Image
-          src='https://s2.svgbox.net/materialui.svg?ic=drag_indicator'
-          alt='ドラッグアイコン'
-          className='pointer'
-          width='30'
-          height='30'
-        />
-        <Image
-          src='/Trash.svg'
-          alt='trash can'
-          className='pointer'
-          width='30'
-          height='30'
-          onClick={(e) => deleteTodo(e, todo)}
-        />
-      </div>
-    ) : (
-      <div key={todo.id} className='todo-item grid'>
-        <input type='checkbox' disabled />
-        <span>{todo.content}</span>
-      </div>
+  const editSectionName = (
+    e: ChangeEvent<HTMLInputElement>,
+    section: ISection
+  ) => {
+    section.name = e.target.value;
+    setSections((prev) => {
+      const index = prev.findIndex((s) => s.id === section.id);
+      prev.splice(index, 1, section);
+      return [...prev];
+    });
+  };
+
+  const addSection = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    section: ISection
+  ) => {
+    setSections((prev) => {
+      prev.push({
+        name: '',
+        id: String(sections.length + 10),
+        todos: [],
+      });
+      return [...prev];
+    });
+  };
+
+  const deleteSection = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    section: ISection
+  ) => {
+    if (sections.length === 1) {
+      alert('最後のセクションを削除することができません');
+      return;
+    }
+
+    setSections((prev) => {
+      return prev.filter((s) => s.id !== section.id);
+    });
+  };
+
+  const sectionsMap = sections.map((section) => {
+    return (
+      <KitSection
+        key={section.id}
+        isOwner={isOwner}
+        section={section}
+        editTodo={editTodo}
+        deleteTodo={deleteTodo}
+        editSectionName={editSectionName}
+        addSection={addSection}
+        deleteSection={deleteSection}
+        setSections={setSections}
+      />
     );
   });
-
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setTodos((prev) => [...prev, todo]);
-    setTodo(initTodoState);
-  };
 
   return (
     <>
@@ -260,11 +195,9 @@ const Kits = () => {
           </>
         )}
 
-        {isOwner && <label>Todos</label>}
+        <div>{sectionsMap}</div>
 
-        <div>{todoMap}</div>
-
-        {isOwner && (
+        {/* {isOwner && (
           <>
             <br />
             <form onSubmit={handleSubmit}>
@@ -285,7 +218,7 @@ const Kits = () => {
               />
             </form>
           </>
-        )}
+        )} */}
       </article>
       <article className='flex flex-start'>
         <span className='author-image'>
@@ -297,7 +230,7 @@ const Kits = () => {
             src='https://s2.svgbox.net/social.svg?ic=twitter'
             width='30'
             height='30'
-            alt="Twitter icon"
+            alt='Twitter icon'
           />
         </span>
         <span className='pointer'>
@@ -305,7 +238,7 @@ const Kits = () => {
             src='https://s2.svgbox.net/social.svg?ic=facebook'
             width='30'
             height='30'
-            alt="Facebook icon"
+            alt='Facebook icon'
           />
         </span>
       </article>
