@@ -8,7 +8,7 @@ interface ITodo {
 
 interface ISection {
   name: string;
-  id: 1,
+  id: number,
   todos: ITodo[];
 }
 
@@ -43,6 +43,27 @@ const todoList: ITodoList = {
         },
         {
           id: '3',
+          content: '早く寝る',
+          isDone: false,
+        },
+      ],
+    },
+    {
+      name: 'セクションB',
+      id: 2,
+      todos: [
+        {
+          id: '11',
+          content: 'ちゃんぽん食べに行く',
+          isDone: true,
+        },
+        {
+          id: '22',
+          content: 'Golangを勉強する',
+          isDone: false,
+        },
+        {
+          id: '33',
           content: '早く寝る',
           isDone: false,
         },
@@ -103,17 +124,18 @@ const Lists = () => {
     });
   };
 
-  const editTodo = (e: ChangeEvent<HTMLInputElement>, todo: ITodo) => {
+  const editTodo = (e: ChangeEvent<HTMLInputElement>, section: ISection, todo: ITodo) => {
     todo.content = e.target.value;
-    setTodos((prev) => {
-      const index = prev.findIndex((t) => t.id === todo.id);
-      prev.splice(index, 1, todo);
-      return [...prev];
-    });
+
+    setSections((prev) => {
+      const sectionIndex = prev.findIndex((s) => s.id === section.id);
+      const todoIndex = prev[sectionIndex].todos.findIndex((t) => t.id === todo.id)
+      prev[sectionIndex].todos.splice(todoIndex, 1, todo)
+      return [...prev]
+    })
   };
 
-  const editSection = (e: ChangeEvent<HTMLInputElement>, section: ISection) => {
-    console.log(section)
+  const editSectionName = (e: ChangeEvent<HTMLInputElement>, section: ISection) => {
     section.name = e.target.value;
     setSections((prev) => {
       const index = prev.findIndex((s) => s.id === section.id);
@@ -161,7 +183,7 @@ const Lists = () => {
           type='text'
           name='sectionTitle'
           value={section.name}
-          onChange={(e) => editSection(e, section)}
+          onChange={(e) => editSectionName(e, section)}
         />
         <div>
           {section.todos.map((todo) => {
@@ -175,7 +197,7 @@ const Lists = () => {
                 <input
                   type='text'
                   value={todo.content}
-                  onChange={(e) => editTodo(e, todo)}
+                  onChange={(e) => editTodo(e, section, todo)}
                   onKeyPress={(e) =>
                     e.key === 'Enter' ? alert('保存しました！') : null
                   }
