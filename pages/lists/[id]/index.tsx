@@ -91,7 +91,7 @@ const Lists = () => {
     setSections((prev) => {
       prev.push({
       name: '',
-      id: sections.length + 1,
+      id: String(sections.length + 10),
       todos: []
     })
     return [...prev]
