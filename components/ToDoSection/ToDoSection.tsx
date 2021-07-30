@@ -1,32 +1,31 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { ITodo, ISection, initTodoState } from '../../types'
+import { ISection } from '../../types';
 
 interface ToDoSectionProps {
   isOwner: boolean;
   section: ISection;
-  deleteSection: Function
-  editSectionName: Function
-  toggleTodo: Function
-  editTodo: Function
-  addTodo: Function
-  setSections: Function
-  deleteTodo: Function
-  todo: ITodo
+  addSection: Function;
+  deleteSection: Function;
+  editSectionName: Function;
+  toggleTodo: Function;
+  editTodo: Function;
+  setSections: Function;
+  deleteTodo: Function;
 }
 
 const ToDoSection = ({
   isOwner,
   section,
+  addSection,
   deleteSection,
   editSectionName,
   toggleTodo,
   editTodo,
   setSections,
   deleteTodo,
-  todo
 }: ToDoSectionProps) => {
-  const [newContent, setNewContent] = useState<string>('')
+  const [newContent, setNewContent] = useState<string>('');
 
   const handleNewTodo = () => {
     setSections((prev: ISection[]) => {
@@ -34,14 +33,14 @@ const ToDoSection = ({
       prev[sectionIndex].todos.push({
         id: String(prev[sectionIndex].todos.length + 1),
         content: newContent,
-        isDone: false
-      })
+        isDone: false,
+      });
 
-      setNewContent('')
+      setNewContent('');
 
-      return [...prev]
-    })
-  }
+      return [...prev];
+    });
+  };
 
   return isOwner ? (
     <div key={section.id}>
@@ -54,6 +53,7 @@ const ToDoSection = ({
             className='pointer'
             width='30'
             height='30'
+            onClick={(e) => addSection(e, section)}
           />
           <Image
             src='https://s2.svgbox.net/materialui.svg?ic=drag_indicator'
@@ -120,7 +120,7 @@ const ToDoSection = ({
         name='todo'
         value={newContent}
         onChange={(e) => setNewContent(e.target.value)}
-        onKeyUp={(e) => e.key === 'Enter' ? handleNewTodo() : '' }
+        onKeyUp={(e) => (e.key === 'Enter' ? handleNewTodo() : '')}
       />
     </div>
   ) : (

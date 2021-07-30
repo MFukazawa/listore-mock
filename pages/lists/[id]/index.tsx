@@ -1,10 +1,9 @@
 import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import ToDoSection from '../../../components/ToDoSection';
-import { ITodo, ISection, ITodoList, initTodoState } from '../../../types';
+import { ITodo, ISection, ITodoList } from '../../../types';
 import { todoList } from '../../../components/ToDoList/constants';
 
 const Lists = () => {
-  const [newTodo, setNewTodo] = useState<ITodo>(initTodoState);
   const [sections, setSections] = useState<ITodoList['todos']>(todoList.todos);
   const [title, setTitle] = useState(todoList.title);
   const [description, setDescription] = useState(todoList.description);
@@ -85,6 +84,21 @@ const Lists = () => {
     });
   };
 
+  const addSection = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+    section: ISection
+  ) => {
+    setSections((prev) => {
+      prev.push({
+      name: '',
+      id: sections.length + 1,
+      todos: []
+    })
+    return [...prev]
+  })
+
+  }
+
   const deleteSection = (
     e: React.MouseEvent<HTMLDivElement, MouseEvent>,
     section: ISection
@@ -115,24 +129,17 @@ const Lists = () => {
     });
   };
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setTodos((prev) => [...prev, todo]);
-    setTodo(initTodoState);
-  };
-
   const todoSections = sections.map((section: ISection) => {
     return (
       <ToDoSection
         key={section.id}
-        todo={newTodo}
         isOwner={isOwner}
         section={section}
+        addSection={addSection}
         deleteSection={deleteSection}
         editSectionName={editSectionName}
         toggleTodo={toggleTodo}
         editTodo={editTodo}
-        addTodo={handleSubmit}
         setSections={setSections}
         deleteTodo={deleteTodo}
       />
