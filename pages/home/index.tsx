@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
-import { TodoTypes, KitTypes } from '../../types';
-import { dummy, dummyKits } from './constants'
+import { TodoTypes } from '../../types';
+import { dummy, dummyKits } from './../../components/Home/constants'
 
 
 const Home = () => {

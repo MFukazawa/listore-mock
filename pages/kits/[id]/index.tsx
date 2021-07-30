@@ -2,8 +2,8 @@ import React, { useState, ChangeEvent, FormEvent, useEffect } from 'react';
 import ReactTooltip from 'react-tooltip';
 import Image from 'next/image';
 import favicon from '../../../public/favicon.ico';
-import { ITodo, ITodoList, ISection } from '../../../types/index';
-import { todoList } from './constants';
+import { ITodo, ISection } from '../../../types/index';
+import { todoList } from '../../../components/KitSection/constants';
 import KitSection from '../../../components/KitSection';
 
 const Kits = () => {
