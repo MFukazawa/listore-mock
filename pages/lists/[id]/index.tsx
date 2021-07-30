@@ -4,7 +4,7 @@ import { ITodo, ISection, ITodoList, initTodoState } from '../../../types';
 import { todoList } from '../../../components/ToDoList/constants';
 
 const Lists = () => {
-  const [todo, setTodo] = useState<ITodo>(initTodoState);
+  const [newTodo, setNewTodo] = useState<ITodo>(initTodoState);
   const [sections, setSections] = useState<ITodoList['todos']>(todoList.todos);
   const [title, setTitle] = useState(todoList.title);
   const [description, setDescription] = useState(todoList.description);
@@ -43,12 +43,15 @@ const Lists = () => {
     console.log('APIを叩く');
   }, [debouncedTitle, debouncedDescription]);
 
-  const toggleTodo = (e: ChangeEvent<HTMLInputElement>, todo: ITodo) => {
+  const toggleTodo = (e: ChangeEvent<HTMLInputElement>, section: ISection, todo: ITodo) => {
     todo.isDone = e.target.checked;
 
     setSections((prev) => {
-      const index = prev.findIndex((t) => t.id === todo.id);
-      prev.splice(index, 1, todo);
+      const sectionIndex = prev.findIndex((s) => s.id === section.id);
+      const todoIndex = prev[sectionIndex].todos.findIndex(
+        (t) => t.id === todo.id
+      );
+      prev[sectionIndex].todos.splice(todoIndex, 1, todo);
       return [...prev];
     });
   };
@@ -122,7 +125,7 @@ const Lists = () => {
     return (
       <ToDoSection
         key={section.id}
-        todo={todo}
+        todo={newTodo}
         isOwner={isOwner}
         section={section}
         deleteSection={deleteSection}
@@ -130,6 +133,7 @@ const Lists = () => {
         toggleTodo={toggleTodo}
         editTodo={editTodo}
         addTodo={handleSubmit}
+        setSections={setSections}
         deleteTodo={deleteTodo}
       />
     );

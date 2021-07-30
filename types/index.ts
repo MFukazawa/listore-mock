@@ -16,7 +16,6 @@ export interface ITodoList {
   description: string;
   isPublished: boolean;
   todos: ISection[];
-  // todos: ITodo[]
 }
 
 export const initTodoState: ITodo = { id: '', content: '', isDone: false };

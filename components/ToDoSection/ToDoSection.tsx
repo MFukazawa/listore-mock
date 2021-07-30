@@ -1,5 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
+import { ITodo, ISection, initTodoState } from '../../types'
+
+interface ToDoSectionProps {
+  isOwner: boolean;
+  section: ISection;
+  deleteSection: Function
+  editSectionName: Function
+  toggleTodo: Function
+  editTodo: Function
+  addTodo: Function
+  setSections: Function
+  deleteTodo: Function
+  todo: ITodo
+}
 
 const ToDoSection = ({
   isOwner,
@@ -8,10 +22,27 @@ const ToDoSection = ({
   editSectionName,
   toggleTodo,
   editTodo,
-  addTodo,
+  setSections,
   deleteTodo,
   todo
-}) => {
+}: ToDoSectionProps) => {
+  const [newContent, setNewContent] = useState<string>('')
+
+  const handleNewTodo = () => {
+    setSections((prev: ISection[]) => {
+      const sectionIndex = prev.findIndex((s) => s.id === section.id);
+      prev[sectionIndex].todos.push({
+        id: String(prev[sectionIndex].todos.length + 1),
+        content: newContent,
+        isDone: false
+      })
+
+      setNewContent('')
+
+      return [...prev]
+    })
+  }
+
   return isOwner ? (
     <div key={section.id}>
       <div className='flex flex-between'>
@@ -54,7 +85,7 @@ const ToDoSection = ({
               <input
                 type='checkbox'
                 checked={todo.isDone}
-                onChange={(e) => toggleTodo(e, todo)}
+                onChange={(e) => toggleTodo(e, section, todo)}
               />
               <input
                 type='text'
@@ -83,23 +114,14 @@ const ToDoSection = ({
           );
         })}
       </div>
-      <form onSubmit={addTodo}>
-        <label htmlFor='todo'>ToDo追加</label>
-        <input
-          type='text'
-          name='todo'
-          value={todo.content}
-          onChange={(e) => {
-            setTodo(() => {
-              return {
-                id: String(todos.length + 1),
-                content: e.target.value,
-                isDone: false,
-              };
-            });
-          }}
-        />
-      </form>
+      <label htmlFor='todo'>ToDo追加</label>
+      <input
+        type='text'
+        name='todo'
+        value={newContent}
+        onChange={(e) => setNewContent(e.target.value)}
+        onKeyUp={(e) => e.key === 'Enter' ? handleNewTodo() : '' }
+      />
     </div>
   ) : (
     <div key={section.id}>
@@ -110,7 +132,7 @@ const ToDoSection = ({
             <input
               type='checkbox'
               checked={todo.isDone}
-              onChange={(e) => toggleTodo(e, todo)}
+              onChange={(e) => toggleTodo(e, section, todo)}
             />
             <span>{todo.content}</span>
           </div>
