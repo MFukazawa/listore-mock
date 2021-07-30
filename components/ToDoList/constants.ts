@@ -8,7 +8,7 @@ export const todoList: ITodoList = {
   todos: [
     {
       name: 'セクションA',
-      id: 1,
+      id: '1',
       todos: [
         {
           id: '1',
@@ -29,7 +29,7 @@ export const todoList: ITodoList = {
     },
     {
       name: 'セクションB',
-      id: 2,
+      id: '2',
       todos: [
         {
           id: '11',
