@@ -19,3 +19,17 @@ export interface ITodoList {
 }
 
 export const initTodoState: ITodo = { id: '', content: '', isDone: false };
+
+export type TodoTypes = {
+  id: string;
+  title: string;
+  description: string;
+  style: Object;
+};
+
+export type KitTypes = {
+  id: string;
+  title: string;
+  description: string;
+  style: Object;
+};

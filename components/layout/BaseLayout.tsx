@@ -11,8 +11,16 @@ interface ChildProps {
 }
 
 const BaseLayout = ({ children }: ChildProps) => {
+  const [searchTerm, setSearchTerm] = useState('')
   const currentYear = () => {
     return new Date().getFullYear()
+  }
+
+  const handleSearch = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      router.push('/search')
+      setSearchTerm('')
+    }
   }
 
   return (
@@ -38,7 +46,9 @@ const BaseLayout = ({ children }: ChildProps) => {
             <li>
               <div className="flex">
                 <input
-                  onKeyUp={(e) => e.key === 'Enter' ? router.push('/search') : ''}
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  onKeyUp={(e) => handleSearch(e)}
                 />
                 <span className="search-icon">
                   <Link href="/search">
